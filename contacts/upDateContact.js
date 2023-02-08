@@ -4,13 +4,17 @@ const filePath = require("./path");
 
 const upDateContact = async (id, name, email, phone) => {
   const contacts = await listContacts();
-  const idx = contacts.findIndex((contact) => contact.id === id);
+  let idx = null;
+
+  typeof id === "number"
+    ? (idx = contacts.findIndex((contact) => contact.id === id.toString()))
+    : (idx = contacts.findIndex((contact) => contact.id === id));
+
   if (idx === -1) {
     return null;
   }
-  console.log(contacts[idx]);
+  typeof id === "number" ? (id = id.toString()) : (id = id);
   contacts[idx] = { id, name, email, phone };
-  console.log(contacts[idx]);
 
   await fs.writeFile(filePath, JSON.stringify(contacts));
   return upDateContact;

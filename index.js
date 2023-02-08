@@ -1,60 +1,57 @@
-const contactsOperations = require("./contacts");
+const yargs = require("yargs");
+const { hideBin } = require("yargs/helpers");
 
-//
+const contactsOperations = require("./contacts");
 
 const invokeAction = async ({ action, id, name, email, phone }) => {
   switch (action) {
-    case "listContacts":
+    case "list":
       const contacts = await contactsOperations.listContacts();
+      console.log(contacts);
+
       break;
-    case "getContactById":
+
+    case "get":
       const contact = await contactsOperations.getContactById(id);
+      console.log(contact);
       if (!contact) {
         throw new Error(`Product with id=${id} not found`);
       }
-      // console.log(contact);
       break;
-    case "addContact":
+
+    case "add":
       const newContact = await contactsOperations.addContact(
         name,
         email,
         phone
       );
+      console.log(newContact);
       break;
-    case "upDateContact":
+
+    case "upDate":
       const freshContact = await contactsOperations.upDateContact(
         id,
         name,
         email,
         phone
       );
+      console.log(freshContact);
       if (!freshContact) {
         throw new Error(`Product with id=${id} not found`);
       }
       break;
-    case "deleteContactById":
+
+    case "remove":
       const deleteContact = await contactsOperations.deleteContactById(id);
+      console.log(deleteContact);
       break;
     default:
       console.log("Operation not found");
   }
 };
 
-// invokeAction({ action: "listContacts" });
-// invokeAction({ action: "getContactById", id: "11" });
-// invokeAction({
-//   action: "addContact",
-//   name: "Marucia",
-//   email: "marusia@gmail.com",
-//   phone: "12345678",
-// });
+const arr = hideBin(process.argv);
 
-// invokeAction({
-//   action: "upDateContact",
-//   id: "1",
-//   name: "Vasia",
-//   email: "marusia@gmail.com",
-//   phone: "12345678",
-// });
+const { argv } = yargs(arr);
 
-invokeAction({ action: "deleteContactById", id: "3" });
+invokeAction(argv);
