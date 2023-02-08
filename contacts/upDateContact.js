@@ -17,7 +17,7 @@ const upDateContact = async (id, name, email, phone) => {
   contacts[idx] = { id, name, email, phone };
 
   await fs.writeFile(filePath, JSON.stringify(contacts));
-  return upDateContact;
+  return contacts[idx];
 };
 
 module.exports = upDateContact;
